@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ことばっくす！６年</title>
-  <meta property="og:title" content="ことばっくす！６年">
-    <meta property="og:description" content="【６年国語】言葉の学習アプリです。">
-    <meta property="og:type" content="website">
+  <title>ことばっくす！　６年生</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Tone.js (効果音生成) -->
@@ -135,13 +132,13 @@
       <!-- 現在の学年・単元表示バッジ -->
       <div id="header-status" class="text-right ml-auto">
         <span class="inline-block px-3 py-1 rounded-full bg-sky-200 text-sky-950 font-bold text-xs sm:text-sm">
-          小学５・６年 国語 言葉の学習
+          ６年生 国語 言葉の学習
         </span>
       </div>
     </header>
 
     <!-- メインコンテンツ描画エリア -->
-    <main id="screen-root" class="flex-1 flex flex-col justify-between p-3 sm:p-5 md:p-6 relative overflow-y-auto">
+    <main id="screen-root" class="flex-1 flex flex-col justify-between p-3 sm:p-5 md:p-6 relative">
       <!-- JavaScriptで各画面を描画 -->
     </main>
 
@@ -1136,7 +1133,7 @@
        ========================================================================= */
     const state = {
       screen: 'home',              // 'home' | 'minna' | 'minna-done' | 'hitori-menu' | 'quiz' | 'stage-result' | 'certificate'
-      selectedGrade: 6,            // 5 | 6
+      selectedGrade: 6,            // fixed grade
       selectedUnitId: '6-jukugo3', // unit.id または 'mix-5' / 'mix-6'
       unitListScrollTop: 0,        // 単元一覧のスクロール位置保持用
       // みんなで学習用（教科書問題10問）
@@ -1207,7 +1204,7 @@
         btnHome.classList.remove('flex');
         headerStatus.innerHTML = `
           <span class="inline-block px-3 py-1 rounded-full bg-sky-200 text-sky-950 font-bold text-xs sm:text-sm">
-            小学５・６年 国語 言葉の学習
+            ６年生 国語 言葉の学習
           </span>`;
       } else {
         btnHome.className = isG6
@@ -1296,44 +1293,18 @@
           <!-- アプリタイトル -->
           <div class="text-center">
             <p class="text-xs sm:text-sm font-bold text-sky-800 tracking-wider">
-              小学５・６年 言葉のきまり・知識
+              ６年生 言葉のきまり・知識
             </p>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
               ことばっくす！
             </h1>
           </div>
 
-          <!-- STEP 1: 学年タブ切り替え -->
-          <div class="bg-sky-50/90 p-2.5 rounded-2xl border-2 border-sky-300">
-            <div class="text-xs font-extrabold text-sky-900 mb-1.5 flex items-center gap-1.5">
-              <span class="px-2 py-0.5 rounded-md bg-sky-600 text-white">STEP 1</span>
-              <span>学年をえらぼう</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2.5">
-              <button type="button" onclick="selectGrade(5)"
-                class="py-2 px-4 rounded-2xl font-extrabold text-base sm:text-lg border-2 transition active:scale-95 ${
-                  state.selectedGrade === 5
-                    ? 'bg-sky-600 text-white border-sky-800 shadow-md'
-                    : 'bg-white text-sky-800 border-sky-200 hover:bg-sky-50'
-                }">
-                ５年生
-              </button>
-              <button type="button" onclick="selectGrade(6)"
-                class="py-2 px-4 rounded-2xl font-extrabold text-base sm:text-lg border-2 transition active:scale-95 ${
-                  state.selectedGrade === 6
-                    ? 'bg-purple-300 text-purple-950 border-purple-500 shadow-md'
-                    : 'bg-white text-purple-800 border-purple-200 hover:bg-purple-50'
-                }">
-                ６年生
-              </button>
-            </div>
-          </div>
-
-          <!-- STEP 2: 単元選択 -->
+          <!-- STEP 1: 単元選択 -->
           <div class="bg-slate-50/80 p-2.5 sm:p-3 rounded-2xl border-2 border-sky-200">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <div class="text-xs font-extrabold text-slate-800 flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded-md bg-slate-800 text-white">STEP 2</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-800 text-white">STEP 1</span>
                 <span>学習する単元をえらぼう</span>
               </div>
               <button type="button" onclick="selectUnit('mix-${state.selectedGrade}')"
@@ -1351,7 +1322,7 @@
             </div>
 
             <div id="unit-list-scroll" onscroll="state.unitListScrollTop = this.scrollTop"
-              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[144px] sm:max-h-[162px] overflow-y-auto pr-1">
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pr-1">
               ${unitButtonsHtml}
             </div>
           </div>
@@ -3207,10 +3178,8 @@
       updateKeyboardDisplay();
     }
 
-    // フリックまたはトグルで1文字入力する処理
+    // フリックまたはトグルで1文字入力する処理（文字キーのみ無音）
     function inputKanaChar(keyObj, mode, flickDir = 'center') {
-      playSound('tap');
-
       if (keyObj.isModifier) {
         // 濁点・半濁点・小文字の変換
         if (kbState.composing.length > 0) {
